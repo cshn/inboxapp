@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Email {
 
     @Id
-    @PrimaryKeyColumn(name = "id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
+    @PrimaryKeyColumn(name = "user_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private UUID id;
 
     @CassandraType(type = CassandraType.Name.TEXT)

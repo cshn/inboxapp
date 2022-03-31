@@ -9,6 +9,7 @@ import io.javabrains.inbox.emaillist.EmailListItemRepository;
 import io.javabrains.inbox.folders.DataStaxAstraProperties;
 import io.javabrains.inbox.folders.Folder;
 import io.javabrains.inbox.folders.FolderRepository;
+import io.javabrains.inbox.folders.UnreadEmailStatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,11 +33,12 @@ public class InboxApp {
 
 	@Autowired
 	FolderRepository folderRepository;
-
 	@Autowired
 	EmailListItemRepository emailListItemRepository;
 	@Autowired
 	EmailRepository emailRepository;
+	@Autowired
+	UnreadEmailStatsRepository unreadEmailStatsRepository;
 
 	private final String FILE_NAME = "src/main/resources/secure-connect.zip";
 
@@ -56,6 +58,10 @@ public class InboxApp {
 		folderRepository.save(new Folder("cshn", "Inbox", "blue"));
 		folderRepository.save(new Folder("cshn", "Sent", "green"));
 		folderRepository.save(new Folder("cshn", "Important", "yellow"));
+
+		unreadEmailStatsRepository.incrementUnreadCounter("cshn", "Inbox");
+		unreadEmailStatsRepository.incrementUnreadCounter("cshn", "Inbox");
+		unreadEmailStatsRepository.incrementUnreadCounter("cshn", "Inbox");
 
 		for (int i = 0; i < 10; i++) {
 			EmailListItemKey key = new EmailListItemKey();

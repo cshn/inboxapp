@@ -53,6 +53,9 @@
       </header>
 
       <nav>
+        <div card>
+          <a href="/compose" class="btn btn-primary">Compose Message</a>
+        </div>
         <div th:insert="components/folder-list :: folder-list (panelName = 'Folders', folders = ${defaultFolders})"></div>
         <div th:insert="components/folder-list :: folder-list (panelName = 'User Folders', folders = ${userFolders})"></div>
       </nav>
@@ -68,7 +71,6 @@
                   <small>some days ago</small>
                 </div>
                 <p class="mb-1" th:text="${message.to}">Some placeholder content in a paragraph.</p>
-                <small>And some small print.</small>
               </a>
             </div>
           </div>
