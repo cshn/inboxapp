@@ -1,5 +1,7 @@
 package io.javabrains.inbox.controllers;
 
+import io.javabrains.inbox.email.Email;
+import io.javabrains.inbox.email.EmailRepository;
 import io.javabrains.inbox.emaillist.EmailListItem;
 import io.javabrains.inbox.emaillist.EmailListItemRepository;
 import io.javabrains.inbox.folders.Folder;
@@ -12,23 +14,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
-public class InboxController {
+public class EmailViewController {
     @Autowired
     private FolderRepository folderRepository;
     @Autowired
     private FolderService folderService;
-
     @Autowired
     EmailListItemRepository emailListItemRepository;
+    @Autowired
+    EmailRepository emailRepository;
 
-    @GetMapping(value = "/")
-    public String homePage(@RequestParam(required=false) String folder, @AuthenticationPrincipal OAuth2User principal,
-                           Model model) {
+    @GetMapping(value = "/emails/{id}")
+    public String emailView(@PathVariable UUID id, @AuthenticationPrincipal OAuth2User principal,
+                            Model model) {
 
         if (principal == null || !StringUtils.hasText(principal.getAttribute("name"))) {
             return "index";
@@ -40,13 +45,16 @@ public class InboxController {
         List<Folder> defaultFolders = folderService.fetchDefaultFolders(userId);
         model.addAttribute("defaultFolders", defaultFolders);
 
-        if(!StringUtils.hasText(folder)) {
-            folder = "Inbox";
+        Optional<Email> optionalEmail = emailRepository.findById(id);
+        if(optionalEmail.isEmpty()) {
+            return "index-page";
         }
-        List<EmailListItem> emailList = emailListItemRepository.findAllByKey_IdAndKey_Label(userId, folder);
-        model.addAttribute("emailList", emailList);
-        model.addAttribute("folderName", folder);
+        Email email = optionalEmail.get();
+        String toIds = String.join(", ", email.getTo());
 
-        return "index-page";
+        model.addAttribute("email", email);
+        model.addAttribute("toIds", toIds);
+        return "email-page";
+
     }
 }
