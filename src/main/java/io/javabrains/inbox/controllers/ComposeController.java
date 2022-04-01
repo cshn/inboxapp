@@ -39,7 +39,7 @@ public class ComposeController {
                                  @RequestParam(required = false) UUID id,
                                  @AuthenticationPrincipal OAuth2User principal,
                                  Model model) {
-        if (principal == null || !StringUtils.hasText(principal.getAttribute("name"))) {
+        if (principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
             return "index";
         }
         String userId = principal.getAttribute("login");
@@ -52,12 +52,14 @@ public class ComposeController {
         model.addAttribute("toIds", String.join(", ", uniqueToIds));
         model.addAttribute("userName", principal.getAttribute("name"));
 
-        Optional<Email> optionalEmail = emailRepository.findById(id);
-        if(optionalEmail.isPresent()) {
-            Email email = optionalEmail.get();
-            if (emailService.doesHaveAccess(email, userId)) {
-                model.addAttribute("subject", emailService.getReplySubject(email.getSubject()));
-                model.addAttribute("body", emailService.getReplyBody(email));
+        if (id != null) {
+            Optional<Email> optionalEmail = emailRepository.findById(id);
+            if (optionalEmail.isPresent()) {
+                Email email = optionalEmail.get();
+                if (emailService.doesHaveAccess(email, userId)) {
+                    model.addAttribute("subject", emailService.getReplySubject(email.getSubject()));
+                    model.addAttribute("body", emailService.getReplyBody(email));
+                }
             }
         }
 
@@ -81,7 +83,7 @@ public class ComposeController {
     public ModelAndView sendEmail(
             @RequestBody MultiValueMap<String, String> formData,
             @AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null || !StringUtils.hasText(principal.getAttribute("name"))) {
+        if (principal == null || !StringUtils.hasText(principal.getAttribute("login"))) {
             return new ModelAndView("redirect:/");
         }
         String from = principal.getAttribute("login");
