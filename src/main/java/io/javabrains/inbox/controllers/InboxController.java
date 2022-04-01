@@ -2,9 +2,7 @@ package io.javabrains.inbox.controllers;
 
 import io.javabrains.inbox.emaillist.EmailListItem;
 import io.javabrains.inbox.emaillist.EmailListItemRepository;
-import io.javabrains.inbox.folders.Folder;
-import io.javabrains.inbox.folders.FolderRepository;
-import io.javabrains.inbox.folders.FolderService;
+import io.javabrains.inbox.folders.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class InboxController {
@@ -22,9 +21,8 @@ public class InboxController {
     private FolderRepository folderRepository;
     @Autowired
     private FolderService folderService;
-
     @Autowired
-    EmailListItemRepository emailListItemRepository;
+    private EmailListItemRepository emailListItemRepository;
 
     @GetMapping(value = "/")
     public String homePage(@RequestParam(required=false) String folder, @AuthenticationPrincipal OAuth2User principal,
@@ -39,6 +37,8 @@ public class InboxController {
         model.addAttribute("userFolders", userFolders);
         List<Folder> defaultFolders = folderService.fetchDefaultFolders(userId);
         model.addAttribute("defaultFolders", defaultFolders);
+        model.addAttribute("stats", folderService.mapCountToLabels(userId));
+        model.addAttribute("userName", principal.getAttribute("name"));
 
         if(!StringUtils.hasText(folder)) {
             folder = "Inbox";
