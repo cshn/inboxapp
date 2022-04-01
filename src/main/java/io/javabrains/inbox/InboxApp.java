@@ -45,6 +45,9 @@ public class InboxApp {
 		folderRepository.save(new Folder("cshn", "Work", "blue"));
 		folderRepository.save(new Folder("cshn", "Home", "green"));
 		folderRepository.save(new Folder("cshn", "Family", "yellow"));
+		folderRepository.save(new Folder("cshnqq", "Work", "blue"));
+		folderRepository.save(new Folder("cshnqq", "Home", "green"));
+		folderRepository.save(new Folder("cshnqq", "Family", "yellow"));
 
 		for (int i = 0; i < 10; i++) {
 			emailService.sendEmail("cshn", Arrays.asList("cshn", "abc"), "Hello " + i, "body " + i);
