@@ -33,8 +33,6 @@ public class InboxController {
         }
 
         String userId = principal.getAttribute("login");
-        List<Folder> userFolders = folderRepository.findAllById(userId);
-        model.addAttribute("userFolders", userFolders);
         List<Folder> defaultFolders = folderService.fetchDefaultFolders(userId);
         model.addAttribute("defaultFolders", defaultFolders);
         model.addAttribute("stats", folderService.mapCountToLabels(userId));
