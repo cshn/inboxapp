@@ -36,3 +36,6 @@ build/
 
 ### astra ###
 secure-connect.zip
+
+### react ###
+src/frontend/node_modules/
