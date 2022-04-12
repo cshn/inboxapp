@@ -14,7 +14,7 @@
 
         grid-template-areas:
           "header header header"
-          "nav content content"
+          "nav content side"
           "footer footer footer";
 
         grid-template-columns: 200px 1fr 200px;
@@ -49,13 +49,8 @@
   <body>
     <div class="container">
       <header>
-        <h3>
-          Inbox App
-          <small class="text-muted">Welcome, </small>
-          <small class="text-muted" th:text="${userName}">User name</small>
-        </h3>
+        <div th:insert="components/app-header :: app-header (userName = ${userName})"></div>
       </header>
-
       <nav>
         <div card>
           <a href="/compose" class="btn btn-primary">Compose Message</a>
@@ -64,6 +59,20 @@
       </nav>
 
       <main>
+        <div class="card-deck" th:if="${cardList}">
+          <div class="card" th:each="message : ${cardList}">
+<!--            <img class="card-img-top" th:src="@{img/ocbcfrank.png}">-->
+            <div class="card-body">
+              <h5 class="card-title" th:text="${message.bankName}+' '+${message.cardName}">CardTitle</h5>
+              <p class="card-text" th:text="${message.minMonthlySpending}">MinMonthlySpending</p>
+              <p class="card-text" th:text="${message.bestSpendingCategory}">ABC, DEF</p>
+              <p class="card-text" th:text="${message.schemeName}"><small class="text-muted">SchemeName</small></p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside>
         <div class="card" th:if="${emailList}">
           <div class="card-header" th:text="${folderName}">Inbox</div>
           <div class="card-body">
@@ -73,17 +82,11 @@
                  th:classappend="${message.isUnread ? 'list-group-item-primary' : '' }">
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1" th:text="${message.subject}">Subject</h5>
-                  <small>some days ago</small>
                 </div>
-                <p class="mb-1" th:text="${message.key.id}">Abc, Def</p>
               </a>
             </div>
           </div>
         </div>
-      </main>
-
-      <aside>
-        <!-- Sidebar / Ads -->
       </aside>
 
       <footer>

@@ -1,5 +1,8 @@
 package io.javabrains.inbox.controllers;
 
+import io.javabrains.inbox.creditcard.CreditCard;
+import io.javabrains.inbox.creditcard.CreditCardRepository;
+import io.javabrains.inbox.creditcard.CreditCardService;
 import io.javabrains.inbox.emaillist.EmailListItem;
 import io.javabrains.inbox.emaillist.EmailListItemRepository;
 import io.javabrains.inbox.folders.*;
@@ -22,7 +25,11 @@ public class InboxController {
     @Autowired
     private FolderService folderService;
     @Autowired
+    private CreditCardService creditCardService;
+    @Autowired
     private EmailListItemRepository emailListItemRepository;
+    @Autowired
+    private CreditCardRepository creditCardRepository;
 
     @GetMapping(value = "/")
     public String homePage(@RequestParam(required=false) String folder, @AuthenticationPrincipal OAuth2User principal,
@@ -44,6 +51,10 @@ public class InboxController {
         List<EmailListItem> emailList = emailListItemRepository.findAllByKey_IdAndKey_Label(userId, folder);
         model.addAttribute("emailList", emailList);
         model.addAttribute("folderName", folder);
+
+        creditCardService.createDefaultCreditCards(userId);
+        List<CreditCard> cardList = creditCardRepository.findAllById(userId);
+        model.addAttribute("cardList", cardList);
 
         return "index-page";
     }

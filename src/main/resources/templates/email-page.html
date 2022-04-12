@@ -53,11 +53,7 @@
   <body>
     <div class="container">
       <header>
-        <h3>
-          Inbox App
-          <small class="text-muted">Welcome, </small>
-          <small class="text-muted" th:text="${userName}">User name</small>
-        </h3>
+        <div th:insert="components/app-header :: app-header (userName = ${userName})"></div>
       </header>
 
       <nav>

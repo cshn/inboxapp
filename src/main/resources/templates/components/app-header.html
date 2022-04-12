@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+</head>
+<body>
+    <div th:fragment="app-header (userName)">
+        <h3>
+            Credit Card Spending App
+            <small class="text-muted">Welcome, </small>
+            <small class="text-muted" th:text="${userName}">User name</small>
+        </h3>
+    </div>
+</body>
+</html>
