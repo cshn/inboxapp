@@ -1,4 +1,4 @@
-# spring-github-login-starter
+# Credit Card Spending Application
 Starter Spring Boot project for OAuth login with GitHub
 
 Simple starter for a Spring Boot Web application with GitHub OAuth support.
