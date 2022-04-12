@@ -42,6 +42,6 @@ public class InboxApp {
 
 	@PostConstruct
 	public void init() {
-		emailService.sendEmail("cshn", Arrays.asList("cshn", "abc"), "Hello ", "body ");
+		emailService.sendEmail("cshn", Arrays.asList("cshn", "abc"), "Message 1", "body ");
 	}
 }
