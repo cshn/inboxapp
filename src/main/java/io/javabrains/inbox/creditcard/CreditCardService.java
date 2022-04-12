@@ -14,11 +14,11 @@ public class CreditCardService {
     private CreditCardRepository creditCardRepository;
 
     public void createDefaultCreditCards(String userId) {
-        creditCardRepository.save(new CreditCard(userId, "Citibank", "Cashback", "Mastercard", 800,
+        creditCardRepository.save(new CreditCard(userId, "Citibank", "Cashback", "Mastercard", 800, 8.0,
                 Arrays.asList("Dining", "Groceries", "Petrol")));
-        creditCardRepository.save(new CreditCard(userId, "OCBC", "Frank", "VISA", 600,
+        creditCardRepository.save(new CreditCard(userId, "OCBC", "Frank", "VISA", 600, 6.0,
                 Arrays.asList("Online", "Smartphone")));
-        creditCardRepository.save(new CreditCard(userId, "Amex", "True Cashback", "Amex", 0,
+        creditCardRepository.save(new CreditCard(userId, "Amex", "True Cashback", "Amex", 0, 1.5,
                 Arrays.asList("Everything")));
     }
 }

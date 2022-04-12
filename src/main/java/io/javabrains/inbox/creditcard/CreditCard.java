@@ -24,18 +24,22 @@ public class CreditCard {
     @CassandraType(type = CassandraType.Name.INT)
     private int minMonthlySpending;
 
+    @CassandraType(type = CassandraType.Name.DOUBLE)
+    private double cashbackPercentage;
+
     @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.TEXT)
     private List<String> bestSpendingCategory;
 
     public CreditCard() {
     }
 
-    public CreditCard(String id, String bankName, String cardName, String schemeName, int minMonthlySpending, List<String> bestSpendingCategory) {
+    public CreditCard(String id, String bankName, String cardName, String schemeName, int minMonthlySpending, double cashbackPercentage, List<String> bestSpendingCategory) {
         this.id = id;
         this.bankName = bankName;
         this.cardName = cardName;
         this.schemeName = schemeName;
         this.minMonthlySpending = minMonthlySpending;
+        this.cashbackPercentage = cashbackPercentage;
         this.bestSpendingCategory = bestSpendingCategory;
     }
 
@@ -77,6 +81,14 @@ public class CreditCard {
 
     public void setMinMonthlySpending(int minMonthlySpending) {
         this.minMonthlySpending = minMonthlySpending;
+    }
+
+    public double getCashbackPercentage() {
+        return cashbackPercentage;
+    }
+
+    public void setCashbackPercentage(double cashbackPercentage) {
+        this.cashbackPercentage = cashbackPercentage;
     }
 
     public List<String> getBestSpendingCategory() {
